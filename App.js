@@ -6,10 +6,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AllContactScreen from "./screens/AllContactScreen";
 import ContactDetailsScreen from "./screens/ContactDetailsScreen";
 import AddContactScreen from "./screens/AddContactScreen";
-import { Provider } from "react-redux";
+import { Provider, connect } from "react-redux";
 import store from "./redux";
 import { FontAwesome } from "@expo/vector-icons";
-import { StatusBar, Text } from "react-native";
+import { StatusBar, Text, View, Button } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -24,8 +24,18 @@ const MainTab = () => {
   );
 };
 
-const Settings = () => {
-  return <Text>Hello</Text>;
+const Settings = ({ navigation }) => {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Coming soon</Text>
+      <Button
+        title="Add"
+        onPress={() => {
+          navigation.navigate("Add");
+        }}
+      />
+    </View>
+  );
 };
 
 const App = () => {
@@ -33,8 +43,27 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Tab.Navigator>
-          <Tab.Screen name="Contacts" component={MainTab} />
-          <Tab.Screen name="Settings" component={Settings} />
+          <Tab.Screen
+            name="Contacts"
+            component={MainTab}
+            options={{
+              tabBarIcon: ({ focused }) => {
+                if (focused) {
+                  return <FontAwesome name="phone" size={25} />;
+                }
+                return <FontAwesome name="phone" size={20} />;
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={Settings}
+            options={{
+              tabBarIcon: () => {
+                return <FontAwesome name="gear" size={20} />;
+              },
+            }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

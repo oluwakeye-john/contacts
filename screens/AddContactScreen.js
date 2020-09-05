@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesome } from "@expo/vector-icons";
 import { connect } from "react-redux";
-import { updateContacts, addNewContact } from "../redux/actions/contacts";
+import { addNewContact } from "../redux/actions/contacts";
+import { Switch, Text } from "react-native";
 
 const AddContact = ({ navigation, contacts, addNewContact }) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const toggleFavorite = () => {
+    setIsFavorite((prev) => {
+      return !prev;
+    });
+  };
 
   const handleSubmit = () => {
     if (!name || !phone) {
@@ -21,6 +29,7 @@ const AddContact = ({ navigation, contacts, addNewContact }) => {
     const newContacts = {
       name,
       phone,
+      isFavorite,
     };
 
     const isDuplicate = contacts.filter((contact) => {
@@ -53,6 +62,10 @@ const AddContact = ({ navigation, contacts, addNewContact }) => {
         placeholderTextColor="darkslateblue"
         onChangeText={setPhone}
       />
+      <StyledSwitch>
+        <Text>Favorite</Text>
+        <Switch value={isFavorite} onValueChange={toggleFavorite} />
+      </StyledSwitch>
       <StyledSubmitButton disabled={disabled} onPress={handleSubmit}>
         <StyledSubmitButtonText>
           <FontAwesome name="plus" />
@@ -76,6 +89,15 @@ const StyledTextInput = styled.TextInput`
   color: #000;
 `;
 
+const StyledSwitch = styled.View`
+  text-align: center;
+  align-self: flex-start;
+
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 20px;
+`;
+
 const StyledSubmitButtonText = styled.Text`
   color: #fff;
   text-align: center;
@@ -85,7 +107,6 @@ const StyledSubmitButton = styled.TouchableOpacity`
   background-color: darkslateblue;
   margin-top: 50px;
   padding: 10px 0;
-
   opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;
 

@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Button, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { connect } from "react-redux";
+import { FontAwesome } from "@expo/vector-icons";
 
 const ContactItem = ({ item, navigation }) => {
   const handleClick = () => {
@@ -9,8 +10,15 @@ const ContactItem = ({ item, navigation }) => {
   };
   return (
     <StyledCard onPress={handleClick}>
-      <CardName>{item.name}</CardName>
-      <Text>{item.phone}</Text>
+      <View>
+        <CardName>{item.name}</CardName>
+        <Text>{item.phone}</Text>
+      </View>
+      <FontAwesome
+        name="star"
+        size={15}
+        color={item.isFavorite ? "gold" : "black"}
+      />
     </StyledCard>
   );
 };
@@ -31,6 +39,7 @@ const AllContacts = ({ navigation, contacts }) => {
   navigation.setOptions({
     headerRight: AddButton,
     title: "Home",
+    tabBarBadge: 4,
   });
 
   return (
@@ -65,6 +74,9 @@ const StyledAddContact = styled.View`
 const StyledCard = styled.TouchableOpacity`
   padding: 10px 0;
   margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const CardName = styled.Text`
