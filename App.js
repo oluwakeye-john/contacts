@@ -11,7 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import { store, persistor } from "./redux";
 import { FontAwesome } from "@expo/vector-icons";
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, ActivityIndicator } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -40,10 +40,18 @@ const Settings = ({ navigation }) => {
   );
 };
 
+const Loader = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
+};
+
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate loading={<Loader />} persistor={persistor}>
         <NavigationContainer>
           <Tab.Navigator>
             <Tab.Screen
