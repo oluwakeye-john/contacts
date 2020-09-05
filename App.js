@@ -11,7 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import { store, persistor } from "./redux";
 import { FontAwesome } from "@expo/vector-icons";
-import { StatusBar, Text, View, Button } from "react-native";
+import { Text, View, Button } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -54,7 +54,7 @@ const App = () => {
                   if (focused) {
                     return <FontAwesome name="phone" size={25} />;
                   }
-                  return <FontAwesome name="mobile" size={20} />;
+                  return <FontAwesome name="phone" size={20} />;
                 },
               }}
             />
