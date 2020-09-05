@@ -67,7 +67,7 @@ const ContactDetails = ({
   return (
     <DetailsView>
       <Image
-        source={require("../assets/user.png")}
+        source={require("../assets/user2.png")}
         style={{ width: 100, height: 100 }}
       />
       {item && (

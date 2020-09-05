@@ -6,8 +6,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AllContactScreen from "./screens/AllContactScreen";
 import ContactDetailsScreen from "./screens/ContactDetailsScreen";
 import AddContactScreen from "./screens/AddContactScreen";
-import { Provider, connect } from "react-redux";
-import store from "./redux";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { store, persistor } from "./redux";
 import { FontAwesome } from "@expo/vector-icons";
 import { StatusBar, Text, View, Button } from "react-native";
 
@@ -41,31 +43,33 @@ const Settings = ({ navigation }) => {
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Contacts"
-            component={MainTab}
-            options={{
-              tabBarIcon: ({ focused }) => {
-                if (focused) {
-                  return <FontAwesome name="phone" size={25} />;
-                }
-                return <FontAwesome name="phone" size={20} />;
-              },
-            }}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={Settings}
-            options={{
-              tabBarIcon: () => {
-                return <FontAwesome name="gear" size={20} />;
-              },
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Tab.Navigator>
+            <Tab.Screen
+              name="Contacts"
+              component={MainTab}
+              options={{
+                tabBarIcon: ({ focused }) => {
+                  if (focused) {
+                    return <FontAwesome name="phone" size={25} />;
+                  }
+                  return <FontAwesome name="mobile" size={20} />;
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                tabBarIcon: () => {
+                  return <FontAwesome name="gear" size={20} />;
+                },
+              }}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 };

@@ -6,36 +6,36 @@ import {
 } from "../types/contacts";
 const initial = {
   contacts: [
-    {
-      name: "John Doe",
-      phone: "08099992876",
-      isFavorite: true,
-    },
-    {
-      name: "Mary Lee",
-      phone: "07016836284",
-      isFavorite: false,
-    },
-    {
-      name: "Daniella",
-      phone: "09024532886",
-      isFavorite: false,
-    },
-    {
-      name: "Dray",
-      phone: "08725392829",
-      isFavorite: true,
-    },
-    {
-      name: "Jordan",
-      phone: "09072439182",
-      isFavorite: false,
-    },
-    {
-      name: "Ray",
-      phone: "06045629875",
-      isFavorite: true,
-    },
+    // {
+    //   name: "John Doe",
+    //   phone: "08099992876",
+    //   isFavorite: true,
+    // },
+    // {
+    //   name: "Mary Lee",
+    //   phone: "07016836284",
+    //   isFavorite: false,
+    // },
+    // {
+    //   name: "Daniella",
+    //   phone: "09024532886",
+    //   isFavorite: false,
+    // },
+    // {
+    //   name: "Dray",
+    //   phone: "08725392829",
+    //   isFavorite: true,
+    // },
+    // {
+    //   name: "Jordan",
+    //   phone: "09072439182",
+    //   isFavorite: false,
+    // },
+    // {
+    //   name: "Ray",
+    //   phone: "06045629875",
+    //   isFavorite: true,
+    // },
   ],
 };
 

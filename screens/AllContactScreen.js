@@ -1,8 +1,17 @@
-import React from "react";
-import { View, Text, Button, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Button,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+} from "react-native";
 import styled from "styled-components/native";
 import { connect } from "react-redux";
 import { FontAwesome } from "@expo/vector-icons";
+
+import { updateContacts } from "../redux/actions/contacts";
 
 const ContactItem = ({ item, navigation }) => {
   const handleClick = () => {
@@ -12,7 +21,7 @@ const ContactItem = ({ item, navigation }) => {
     <StyledCard onPress={handleClick}>
       <View>
         <CardName>{item.name}</CardName>
-        <Text>{item.phone}</Text>
+        <CardPhone>{item.phone}</CardPhone>
       </View>
       <FontAwesome
         name="star"
@@ -23,7 +32,7 @@ const ContactItem = ({ item, navigation }) => {
   );
 };
 
-const AllContacts = ({ navigation, contacts }) => {
+const AllContacts = ({ navigation, contacts, updateContacts }) => {
   const AddButton = () => {
     return (
       <StyledAddContact>
@@ -42,18 +51,42 @@ const AllContacts = ({ navigation, contacts }) => {
     tabBarBadge: 4,
   });
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 3000);
+  };
+
   return (
     <StyledViewContainer>
-      <StyledCardList>
-        {/* {contacts.map((com, index) => (
-          
-        ))} */}
-        <FlatList
-          data={contacts}
-          renderItem={({ item }) => (
-            <ContactItem item={item} navigation={navigation} />
+      <StyledCardList
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <>
+          {contacts && contacts.length !== 0 ? (
+            <FlatList
+              data={contacts}
+              renderItem={({ item }) => (
+                <ContactItem item={item} navigation={navigation} />
+              )}
+            />
+          ) : (
+            <NoContact>
+              <NoContactText>No contacts Yet</NoContactText>
+              <Button
+                title="Create New Contact"
+                onPress={() => {
+                  navigation.navigate("Add");
+                }}
+              />
+            </NoContact>
           )}
-        />
+        </>
       </StyledCardList>
     </StyledViewContainer>
   );
@@ -85,10 +118,32 @@ const CardName = styled.Text`
   color: darkslateblue;
 `;
 
+const CardPhone = styled.Text`
+  margin-top: 3px;
+  font-size: 14px;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
+`;
+
+const NoContact = styled.View`
+  align-self: center;
+  align-items: center;
+`;
+
+const NoContactText = styled.Text`
+  margin-bottom: 20px;
+`;
+
 const mapStateToProps = (state) => {
   return {
     contacts: state.contactsReducer.contacts,
   };
 };
 
-export default connect(mapStateToProps, null)(AllContacts);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateContacts: (contacts) => dispatch(updateContacts(contacts)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllContacts);
